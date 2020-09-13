@@ -13,7 +13,7 @@ class MyDocument extends Document {
       <Html lang={this.props.lang || "es"}>
         <Head>
           {/* Global Site Tag (gtag.js) - Google Analytics */}
-          <script
+          {/* <script
             async
             src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
           />
@@ -28,7 +28,7 @@ class MyDocument extends Document {
             });
           `,
             }}
-          />
+          /> */}
         </Head>
         <body>
           <Main />
