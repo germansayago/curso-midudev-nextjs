@@ -1,25 +1,29 @@
-import { useEffect, useState } from "react";
-import Head from "next/head";
-import AppLayout from "../components/AppLayout";
-import Button from "../components/Buttton";
-import Github from "../components/Icons/GitHub";
+import { useEffect, useState } from "react"
+import Head from "next/head"
+import Link from "next/link"
 
-import { loginWithGitHub, onAuthStateChanged } from "../firebase/client";
+import Avatar from "components/Avatar"
+import AppLayout from "components/AppLayout"
+import Button from "components/Buttton"
+import Github from "components/Icons/GitHub"
+import Logo from "components/Icons/Logo"
+
+import { loginWithGitHub, onAuthStateChanged } from "firebase/client"
 
 export default function Home() {
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState(undefined)
 
   useEffect(() => {
-    onAuthStateChanged(setUser);
-  }, []);
+    onAuthStateChanged(setUser)
+  }, [])
 
   const handleClick = () => {
     loginWithGitHub()
       .then(setUser)
       .catch((err) => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
 
   return (
     <>
@@ -28,8 +32,8 @@ export default function Home() {
         <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
       </Head>
       <AppLayout>
-        <section className="home">
-          <img src="/logo.png" alt="logo" />
+        <section className="login">
+          <Logo className="logo" />
           <h1>Devter</h1>
           <h2>Lorem ipsum dolor sit amet. 👩‍💻</h2>
           {user === null && (
@@ -40,12 +44,18 @@ export default function Home() {
           )}
           {user && user.avatar && (
             <div>
-              <img src={user.avatar} alt="user" />
-              <strong>{user.username}</strong>
+              <Avatar
+                alt={user.username}
+                src={user.avatar}
+                text={user.username}
+              />
+              <Link className="btn" href="/home">
+                home
+              </Link>
             </div>
           )}
         </section>
       </AppLayout>
     </>
-  );
+  )
 }
