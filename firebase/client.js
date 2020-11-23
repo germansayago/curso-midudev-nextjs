@@ -48,3 +48,25 @@ export const addDevit = ({ avatar, content, userId, userName }) => {
     sharedCount: 0,
   })
 }
+
+export const fetchLatestDevits = () => {
+  return db
+    .collection("devits")
+    .get()
+    .then(({ docs }) => {
+      return docs.map((doc) => {
+        const data = doc.data()
+        const id = doc.id
+        const { createdAt } = data
+
+        const date = new Date(createdAt.seconds * 1000)
+        const normalizedCreateAt = new Intl.DateTimeFormat("es-ES").format(date)
+
+        return {
+          ...data,
+          id,
+          createdAt: normalizedCreateAt,
+        }
+      })
+    })
+}
