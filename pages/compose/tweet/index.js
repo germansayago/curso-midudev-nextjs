@@ -3,9 +3,11 @@ import AppLayout from "components/AppLayout"
 import Button from "components/Button"
 import useUser from "hooks/useUser"
 
+import { addDevit } from "firebase/client"
+
 export default function ComposeTweet() {
-  // const user = useUser()
-  useUser()
+  const user = useUser()
+  // useUser()
   const [message, setMessage] = useState("")
 
   const handleChange = (event) => {
@@ -15,6 +17,12 @@ export default function ComposeTweet() {
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    addDevit({
+      avatar: user.avatar,
+      content: message,
+      userId: user.uid,
+      userName: user.username,
+    })
   }
 
   return (
@@ -44,7 +52,7 @@ export default function ComposeTweet() {
         textarea {
           border: 0px;
           padding: 15px;
-          font-size: 12px;
+          font-size: 16px;
           width: 100%;
           resize: none;
           min-height: 200px;
