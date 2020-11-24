@@ -3,6 +3,12 @@ import { useEffect, useState } from "react"
 import Devit from "components/Devit"
 import useUser from "hooks/useUser"
 import { fetchLatestDevits } from "firebase/client"
+import Create from "components/Icons/Create"
+import Home from "components/Icons/Home"
+import Search from "components/Icons/Search"
+import Link from "next/link"
+import { colors } from "styles/theme"
+import Head from "next/head"
 
 export default function HomePage() {
   const [timeline, setTimeline] = useState([])
@@ -15,22 +21,42 @@ export default function HomePage() {
   return (
     <>
       <AppLayout>
+        <Head>
+          <title>Inicio / Devter</title>
+        </Head>
         <header>
           <h2>Inicio</h2>
         </header>
         <section>
-          {timeline.map(({ createdAt, id, userName, avatar, content }) => (
+          {timeline.map(({ createdAt, img, id, userName, avatar, content }) => (
             <Devit
               avatar={avatar}
               createdAt={createdAt}
               id={id}
+              img={img}
               key={id}
               content={content}
               userName={userName}
             />
           ))}
         </section>
-        <nav></nav>
+        <nav>
+          <Link href="/home">
+            <a>
+              <Home stroke="#09f" width="32" height="32" />
+            </a>
+          </Link>
+          <Link href="/compose/tweet">
+            <a>
+              <Search width="32" height="32" />
+            </a>
+          </Link>
+          <Link href="/compose/tweet">
+            <a>
+              <Create width="32" height="32" />
+            </a>
+          </Link>
+        </nav>
       </AppLayout>
       <style jsx>{`
         header {
@@ -44,6 +70,10 @@ export default function HomePage() {
           top: 0;
           width: 100%;
         }
+
+        section {
+          flex: 1;
+        }
         h2 {
           font-size: 21px;
           font-weight: 800;
@@ -53,9 +83,26 @@ export default function HomePage() {
           background: #fff;
           bottom: 0;
           border-top: 1px solid #eee;
+          display: flex;
           height: 49px;
           position: sticky;
           width: 100%;
+          padding: 0px 30px;
+        }
+
+        nav a {
+          align-items: center;
+          display: flex;
+          flex: 1 1 auto;
+          justify-content: center;
+        }
+        nav a:hover {
+          background: radial-gradient(#0099ff11 15%, transparent 16%);
+          background-size: 180px 180px;
+          background-position: center;
+        }
+        nav a:hover > :global(svg) {
+          stroke: ${colors.primary};
         }
       `}</style>
     </>
